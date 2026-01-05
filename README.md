@@ -92,4 +92,76 @@ def save_tags():
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MP3 Tag Editor</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; background: #f4f4f9; }
+        .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #333; text-align: center; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="file"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #0056b3; }
+        .upload-section { text-align: center; border: 2px dashed #ccc; padding: 40px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🎵 MP3 Tag Editor</h1>
+
+    {% if not tags %}
+    <div class="upload-section">
+        <form action="/" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Choose an MP3 file to edit</label>
+                <input type="file" name="file" accept=".mp3" required>
+            </div>
+            <button type="submit">Scan File</button>
+        </form>
+    </div>
+    {% endif %}
+
+    {% if tags %}
+    <form action="/save" method="post">
+        <input type="hidden" name="filename" value="{{ filename }}">
+        
+        <div class="form-group">
+            <label>Title</label>
+            <input type="text" name="title" value="{{ tags.title }}">
+        </div>
+
+        <div class="form-group">
+            <label>Artist</label>
+            <input type="text" name="artist" value="{{ tags.artist }}">
+        </div>
+
+        <div class="form-group">
+            <label>Album</label>
+            <input type="text" name="album" value="{{ tags.album }}">
+        </div>
+
+        <div class="form-group">
+            <label>Genre</label>
+            <input type="text" name="genre" value="{{ tags.genre }}">
+        </div>
+
+        <div class="form-group">
+            <label>Year</label>
+            <input type="text" name="year" value="{{ tags.year }}">
+        </div>
+
+        <button type="submit">Save & Download</button>
+        <p style="text-align: center; margin-top: 15px;"><a href="/">Start Over</a></p>
+    </form>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
